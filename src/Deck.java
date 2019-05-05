@@ -66,4 +66,8 @@ public class Deck {
             deck.set(i, b);
         }
     }
+
+    public String toString() {
+        return deck.toString();
+    }
 }
