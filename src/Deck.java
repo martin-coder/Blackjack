@@ -49,6 +49,14 @@ public class Deck {
         return deck.size();
     }
 
+    int getTotalValue() {
+        int totalValue = 0;
+        for (Card card : deck) {
+            totalValue += card.value;
+        }
+        return totalValue;
+    }
+
     void addCard(Card card) {
         deck.add(card);
         numCards++;
