@@ -1,34 +1,24 @@
 class Table {
 
     private Deck deck;
-    private int numPlayers;
-    Dealer dealer;
-    private Player[] players;
+    private Dealer dealer;
+    private Player player;
 
-    Table(int numPlayers) {
+    Table() {
         deck = new Deck(false);
-        this.numPlayers = numPlayers;
         dealer = new Dealer();
-        players = new Player[numPlayers];
-        for (int i = 0; i < numPlayers; i++) {
-            players[i] = new Player();
-            players[i].setName("Player " + i);
+        player = new Player();
         }
-    }
 
     Deck deck() {
         return deck;
     }
 
-    Player getPlayer(int n) {
-        return players[n-1];
+    Player player() {
+        return player;
     }
 
     Dealer dealer() {
         return dealer;
-    }
-
-    int getNumPlayers() {
-        return numPlayers;
     }
 }

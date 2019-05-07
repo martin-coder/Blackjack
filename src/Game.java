@@ -6,11 +6,8 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("--BLACKJACK--");
-        System.out.print("How many players? ");
-        int numPlayers = scanner.nextInt();
 
-        Table table = new Table(numPlayers);
-        int currentPlayer = 1;
+        Table table = new Table();
 
         for (int i = 0; i < 10; i++) {               //  Get it real nice n shuffled (shuffling algorithm is pretty terrible so doing it 10x helps)
             table.deck().shuffle();
@@ -26,32 +23,22 @@ public class Game {
             intent = getPlayerIntention(scanner);
         } while (intent == -1);
 
-        if (intent == 1) {
-            if (currentPlayer < table.getNumPlayers()) {
-                currentPlayer += 1;
-            } else {
-                currentPlayer = 1;
-            }
-
-        }
-
 
     }
 
     private static void initDeal(Table table) {
-        for (int i = 1; i <= table.getNumPlayers(); i++) {
-            for (int j = 0; j < 2; j++) {
-                table.dealer.hand().addCard(table.deck().removeCard());
-                table.getPlayer(i).hand().addCard(table.deck().removeCard());
-            }
+
+        for (int j = 0; j < 2; j++) {
+            table.dealer().hand().addCard(table.deck().removeCard());
+            table.player().hand().addCard(table.deck().removeCard());
         }
     }
 
     private static void printCurrentState(Table table) {
-        System.out.println("DEALER: " + table.dealer.hand().toString());
-        System.out.println("  TOTAL: " + table.dealer.handValue());
-        System.out.println("PLAYER " + table.getPlayer(1).hand().toString());
-        System.out.println("  TOTAL: " + table.getPlayer(1).handValue());
+        System.out.println("DEALER: " + table.dealer().hand().toString());
+        System.out.println("  TOTAL: " + table.dealer().handValue());
+        System.out.println("PLAYER: " + table.player().hand().toString());
+        System.out.println("  TOTAL: " + table.player().handValue());
     }
 
     private static int getPlayerIntention(Scanner scanner) {
