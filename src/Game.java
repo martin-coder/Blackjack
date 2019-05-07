@@ -9,6 +9,8 @@ public class Game {
 
         Table table = new Table();
 
+        //TODO Put everything in a game loop
+
         for (int i = 0; i < 10; i++) {               //  Get it real nice n shuffled (shuffling algorithm is pretty terrible so doing it 10x helps)
             table.deck().shuffle();
         }
@@ -16,14 +18,24 @@ public class Game {
         initDeal(table);
         printCurrentState(table);
 
+        //TODO if initial deal is 21 for player or dealer, they must immediately win
+        //TODO if dealer's hand is >= 21, player must immediately win
+
         System.out.println();
 
         int intent;
         do {
-            intent = getPlayerIntention(scanner);
-        } while (intent == -1);
+            do {
+                intent = getPlayerIntent(scanner);
+            } while (intent == -1);
 
+            if (intent == 0) {
+                table.player().hand().addCard(table.deck().removeCard());
+            }
+        } while (table.player().handValue() < 21 && intent != 1);
 
+        String winner = calcWinner(table.dealer(), table.player()).name();
+        System.out.println("Winner is " + winner);
     }
 
     private static void initDeal(Table table) {
@@ -32,6 +44,7 @@ public class Game {
             table.dealer().hand().addCard(table.deck().removeCard());
             table.player().hand().addCard(table.deck().removeCard());
         }
+        //TODO Dealer must draw cards until his hand is >= 17
     }
 
     private static void printCurrentState(Table table) {
@@ -41,7 +54,7 @@ public class Game {
         System.out.println("  TOTAL: " + table.player().handValue());
     }
 
-    private static int getPlayerIntention(Scanner scanner) {
+    private static int getPlayerIntent(Scanner scanner) {
         System.out.println("Hit or Stand?");
         String move = scanner.next().toLowerCase();
         if (move.equals("hit")) {
@@ -52,4 +65,21 @@ public class Game {
             return -1;
         }
     }
+
+    private static Player calcWinner(Dealer dealer, Player player) {
+        if (player.handValue() > 20) {
+            return dealer;
+        }
+        if (player.handValue() == 21) {
+            return player;
+        }
+
+        if (player.handValue() > dealer.handValue()) {
+            return player;
+        } else {
+            return dealer;
+        }
+    }
+
+    //TODO Create & implement getValue() method
 }

@@ -1,13 +1,11 @@
 class Player {
 
     private Deck hand;
-    private int handValue;
     private String name;
 
     Player() {
         hand = new Deck(true);
-        handValue = hand.getTotalValue();
-        name = "Player 1";
+        name = "Player";
     }
 
     Deck hand() {
@@ -21,6 +19,7 @@ class Player {
     void setName(String name) { this.name = name; }
 
     int handValue() {
-        return handValue;
+        return hand.getTotalValue();
+
     }
 }
