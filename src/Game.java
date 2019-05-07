@@ -18,21 +18,22 @@ public class Game {
         initDeal(table);
         printCurrentState(table);
 
+        System.out.println();
         //TODO if initial deal is 21 for player or dealer, they must immediately win
         //TODO if dealer's hand is >= 21, player must immediately win
-
-        System.out.println();
-
-        int intent;
-        do {
+        if (!(table.dealer().handValue() > 20 || table.player().handValue() > 20)) {
+            int intent;
             do {
-                intent = getPlayerIntent(scanner);
-            } while (intent == -1);
+                do {
+                    intent = getPlayerIntent(scanner);
+                } while (intent == -1);
 
-            if (intent == 0) {
-                table.player().hand().addCard(table.deck().removeCard());
-            }
-        } while (table.player().handValue() < 21 && intent != 1);
+                if (intent == 0) {
+                    table.player().hand().addCard(table.deck().removeCard());
+                    printCurrentState(table);
+                }
+            } while (table.player().handValue() < 21 && intent != 1);
+        }
 
         String winner = calcWinner(table.dealer(), table.player()).name();
         System.out.println("Winner is " + winner);
@@ -70,7 +71,14 @@ public class Game {
     }
 
     private static Player calcWinner(Dealer dealer, Player player) {
-        if (player.handValue() > 20) {
+
+        if (dealer.handValue() > 21) {
+            return player;
+        }
+        if (player.handValue() > 21) {
+            return dealer;
+        }
+        if (dealer.handValue() == 21) {
             return dealer;
         }
         if (player.handValue() == 21) {
