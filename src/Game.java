@@ -44,7 +44,10 @@ public class Game {
             table.dealer().hand().addCard(table.deck().removeCard());
             table.player().hand().addCard(table.deck().removeCard());
         }
-        //TODO Dealer must draw cards until his hand is >= 17
+
+        while (table.dealer().handValue() < 17) {
+            table.dealer().hand().addCard(table.deck().removeCard());
+        }
     }
 
     private static void printCurrentState(Table table) {
