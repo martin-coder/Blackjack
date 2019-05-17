@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Deck {
+class Deck {
 
     public class Card {
 
@@ -46,7 +46,7 @@ public class Deck {
     }
 
     int getNumCards() {
-        return deck.size();
+        return numCards;
     }
 
     int getTotalValue() {
@@ -62,9 +62,17 @@ public class Deck {
         numCards++;
     }
 
+    void addAll(Deck deck) {
+
+        while (!deck.isEmpty()) {
+            this.addCard(deck.removeCard());
+        }
+    }
+
     Card removeCard() {
         Card removed = deck.get(deck.size()-1);
         deck.remove(deck.size()-1);
+        numCards--;
         return removed;
     }
 
@@ -82,8 +90,19 @@ public class Deck {
         }
     }
 
-    public String toString() {
+    private boolean isEmpty() {
+        return numCards == 0;
+    }
+
+
+    String toString(Boolean hideFirst) {
+        if (hideFirst) {
+            String str = deck.toString();
+            return "[** of *****" + str.substring(str.indexOf(','));
+        }
         return deck.toString();
     }
+
+
 
 }
