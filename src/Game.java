@@ -1,55 +1,49 @@
 import java.util.Scanner;
-
+// TODO implement score system
 public class Game {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println();
+        System.out.println("-------------");
         System.out.println("--BLACKJACK--");
+        System.out.println("-------------");
+        System.out.println();
 
         Table table = new Table();
 
         boolean continuePlaying;
 
         do {
-            for (int i = 0; i < 10; i++) {               //  Get it real nice n shuffled (shuffling algorithm is pretty terrible so doing it 10x helps)
-                table.deck().shuffle();
-            }
+            table.deck().shuffle();
 
             initDeal(table);
-            printCurrentState(table);
 
-            System.out.println();
 
             if (!(table.dealer().handValue() > 20 || table.player().handValue() > 20)) {
                 int intent;
                 do {
+                    printCurrentState(table, true);
+                    System.out.println();
                     do {
                         intent = getPlayerIntent(scanner);
                     } while (intent == -1);
 
                     if (intent == 0) {
                         table.player().hand().addCard(table.deck().removeCard());
-                        printCurrentState(table);
                     }
                 } while (table.player().handValue() < 21 && intent != 1);
             }
 
             String winner = calcWinner(table.dealer(), table.player()).name();
-            System.out.println("Winner is " + winner);
 
-            System.out.println();
+            printWinner(table, winner); // Prints winner and final hands
 
-            // Check if player wishes to continue
-            System.out.println("Continue Playing? (Y/N)");
+            continuePlaying = checkContinue(scanner);
 
-            if (scanner.next().toLowerCase().equals("y")) {
-                continuePlaying = true;
-                resetGame(table);
-            } else {
-                continuePlaying = false;
-                System.out.println("Goodbye!");
-            }
+            if (continuePlaying) resetGame(table);
+
 
         } while (continuePlaying);
     }
@@ -57,7 +51,6 @@ public class Game {
     private static void resetGame(Table table) {
         table.deck().addAll(table.dealer().hand());
         table.deck().addAll(table.player().hand());
-        table.deck().shuffle();
     }
 
     private static void initDeal(Table table) {
@@ -72,11 +65,15 @@ public class Game {
         }
     }
 
-    private static void printCurrentState(Table table) {
-        System.out.println("DEALER: " + table.dealer().hand().toString(true));
-        System.out.println("  TOTAL: " + table.dealer().handValue());
+    private static void printCurrentState(Table table, boolean hidden) {
+        if (hidden) {
+            System.out.println("DEALER: " + table.dealer().hand().toString(true));
+        } else {
+            System.out.println("DEALER: " + table.dealer().hand().toString(false));
+            System.out.println("  DEALER TOTAL: " + table.dealer().handValue());
+        }
         System.out.println("PLAYER: " + table.player().hand().toString(false));
-        System.out.println("  TOTAL: " + table.player().handValue());
+        System.out.println("  PLAYER TOTAL: " + table.player().handValue());
     }
 
     private static int getPlayerIntent(Scanner scanner) {
@@ -91,6 +88,8 @@ public class Game {
         }
     }
 
+
+    //TODO clean up calculation logic
     private static Player calcWinner(Dealer dealer, Player player) {
 
         if (player.handValue() > 21) {
@@ -99,7 +98,7 @@ public class Game {
         if (dealer.handValue() > 21) {
             return player;
         }
-        if (dealer.handValue() == 21) {
+        if (dealer.handValue() == 21 ) {
             return dealer;
         }
         if (player.handValue() == 21) {
@@ -110,6 +109,26 @@ public class Game {
             return player;
         } else {
             return dealer;
+        }
+    }
+
+    private static void printWinner(Table table, String winner) {
+        System.out.println();
+        printCurrentState(table, false);
+        System.out.println();
+        System.out.println("---Winner is " + winner.toUpperCase() + "---");
+        System.out.println();
+    }
+
+    private static boolean checkContinue(Scanner scanner) {
+        // Check if player wishes to play again
+        System.out.println("Play again? (Y/N)");
+
+        if (scanner.next().toLowerCase().equals("y")) {
+            return true;
+        } else {
+            System.out.println("Goodbye!");
+            return false;
         }
     }
 }

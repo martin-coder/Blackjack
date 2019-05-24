@@ -19,7 +19,14 @@ class Player {
     void setName(String name) { this.name = name; }
 
     int handValue() {
-        return hand.getTotalValue();
+
+        int handValue = hand.getTotalValue();
+
+        if (handValue < 12 && hand.contains(1)) {
+            return handValue + 10;
+        } else {
+            return handValue;
+        }
 
     }
 }

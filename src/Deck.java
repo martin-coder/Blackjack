@@ -52,7 +52,11 @@ class Deck {
     int getTotalValue() {
         int totalValue = 0;
         for (Card card : deck) {
-            totalValue += card.value;
+            if (card.value == 11 || card.value == 12 || card.value == 13) {     //  All face cards have a point value of 10
+                totalValue +=  10;
+            } else {
+                totalValue += card.value;
+            }
         }
         return totalValue;
     }
@@ -90,10 +94,22 @@ class Deck {
         }
     }
 
+    boolean contains(int value) {
+
+        boolean hasAce = false;
+
+        for (Card card : deck) {
+            if (card.value == value) {
+                hasAce = true;
+                break;
+            }
+        }
+        return hasAce;
+    }
+
     private boolean isEmpty() {
         return numCards == 0;
     }
-
 
     String toString(Boolean hideFirst) {
         if (hideFirst) {
