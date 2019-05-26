@@ -1,3 +1,5 @@
+# Blackjack
+
 This is a simple, single-player, text-based Blackjack game.
 
 When I was first introduced to programming, a friend showed me a Blackjack game they had made in java. I tried to make my own, but failed (miserably). I didn't understand OOP at all-- I tried to make the entire thing in one class called "Blackjack".
