@@ -10,6 +10,6 @@ I'm going to continue updating it here and there, but I am pretty happy with how
 
 Thanks for checking it out!
 
-**Instructions on Compiling:**
+**Instructions:**
 
 Clone the repository onto your machine. Navigate into the folder, compile each class using `javac *.java`, then run using `java Game.java`. 
