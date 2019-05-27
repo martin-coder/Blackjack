@@ -9,3 +9,7 @@ Since then, I went through some ups and downs in my education path, but eventual
 I'm going to continue updating it here and there, but I am pretty happy with how it turned out. 
 
 Thanks for checking it out!
+
+**Instructions on Compiling:**
+
+Clone the repository onto your machine. Navigate into the folder, compile each class using `javac *.java`, then run using `java Game.java`. 
